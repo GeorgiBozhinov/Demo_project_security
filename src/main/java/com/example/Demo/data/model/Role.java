@@ -22,7 +22,6 @@ public class Role extends BaseEntity implements GrantedAuthority {
     }
 
     @Override
-    @Column(name="authority")
     public String getAuthority() {
         return authority;
     }
