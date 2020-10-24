@@ -26,7 +26,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
 
-    @Column (name = "password")
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -36,10 +36,10 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-                    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     public Set<Role> getAuthorities() {
         return authorities;
     }

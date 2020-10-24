@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,14 +21,16 @@ public class UserServiceImpl implements UserService{
     private final RoleService roleService;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleService roleService,
-                           RoleRepository roleRepository, ModelMapper modelMapper) {
+                           RoleRepository roleRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -49,6 +52,8 @@ public class UserServiceImpl implements UserService{
             user.setAuthorities(new HashSet<>(Set.of(this.roleRepository.findByAuthority("USER"))));
         }
 
-        return null;
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        return this.userRepository.saveAndFlush(user);
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h2>Home page</h2>
+<div sec:authorize="hasAuthority('ADMIN')">
+    You are admin
+</div>
+<div sec:authorize="hasAuthority('USER')">
+    You are user
+</div>
+
+<a th:href="@{/logout}">Logout</a>
+</body>
+</html>

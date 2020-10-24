@@ -14,14 +14,16 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf().disable().
-                authorizeRequests().antMatchers("/", "register").
-                permitAll().anyRequest().authenticated().and()
+        httpSecurity.csrf().disable()
+                .authorizeRequests().antMatchers("/", "/register")
+                .permitAll().anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").permitAll()
                 .usernameParameter("username")
-                .passwordParameter("password").
-                and().logout().logoutSuccessUrl("/login?logout").permitAll().
-                and().
-                exceptionHandling().accessDeniedPage("/unauthorized");
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true)
+                .and()
+                .logout().logoutSuccessUrl("/login?logout").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/unauthorized");
     }
 }

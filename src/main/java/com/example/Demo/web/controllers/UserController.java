@@ -24,21 +24,21 @@ public class UserController {
 
     @GetMapping("/register")
     private String register(){
-        return "home/register.html";
+        return "register.html";
     }
 
     @PostMapping("/register")
     private String register(@ModelAttribute UserRegisterModel model){
         if(!model.getPassword().equals(model.getConfirmPassword())){
-            return "home/register.html";
+            return "register.html";
         }
 
         this.userService.register(this.modelMapper.map(model, UserServiceModel.class));
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @GetMapping("/login")
     private String login(){
-        return "home/login";
+        return "login.html";
     }
 }
